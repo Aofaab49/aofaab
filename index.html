@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ร้านค้าออนไลน์ตัวอย่าง</title>
+    <style>
+        body {
+            background-color: #fff3e0;
+            color: #e65100;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff9800;
+            color: white;
+            padding: 24px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #fb8c00;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 16px;
+            font-weight: bold;
+        }
+        main {
+            padding: 32px 16px;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(255,152,0,0.08);
+        }
+        footer {
+            background-color: #ef6c00;
+            color: white;
+            text-align: center;
+            padding: 16px 0;
+            margin-top: 32px;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .product {
+            background: #fff8e1;
+            border: 1px solid #ffe0b2;
+            border-radius: 8px;
+            padding: 16px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(255,152,0,0.07);
+        }
+        .product img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border-radius: 6px;
+        }
+        .product button {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        .cart {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: #fffde7;
+            border: 1px solid #ffe0b2;
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 220px;
+            box-shadow: 0 2px 8px rgba(255,152,0,0.12);
+            z-index: 100;
+        }
+        .cart h3 {
+            margin-top: 0;
+            color: #e65100;
+        }
+        .cart-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 12px 0;
+        }
+        .cart-list li {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        .cart-total {
+            font-weight: bold;
+            color: #fb8c00;
+        }
+        .remove-btn {
+            background: #ef6c00;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 6px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ร้านค้าออนไลน์ตัวอย่าง</h1>
+        <p>เลือกซื้อสินค้าคุณภาพ พร้อมตะกร้าสินค้า</p>
+    </header>
+    <nav>
+        <a href="#">หน้าหลัก</a>
+        <a href="#">สินค้า</a>
+        <a href="#">ตะกร้าสินค้า</a>
+        <a href="#">ติดต่อ</a>
+    </nav>
+    <div class="cart" id="cart">
+        <h3>ตะกร้าสินค้า</h3>
+        <ul class="cart-list" id="cart-list"></ul>
+        <div class="cart-total" id="cart-total">รวม: 0 บาท</div>
+    </div>
+    <main>
+        <h2>สินค้าแนะนำ</h2>
+        <div class="products" id="products">
+            <!-- สินค้าตัวอย่าง -->
+            <div class="product" data-id="1" data-name="สมุดโน้ต" data-price="45">
+                <img src="data:image/jpeg;base64,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" alt="สมุดโน้ต">
+                <h3>สมุดโน้ต</h3>
+                <p>สมุดโน้ตคุณภาพดี</p>
+                <div>ราคา: 45 บาท</div>
+                <button onclick="addToCart(1)">หยิบใส่ตะกร้า</button>
+            </div>
+            <div class="product" data-id="2" data-name="ปากกา" data-price="15">
+                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80" alt="ปากกา">
+                <h3>ปากกา</h3>
+                <p>ปากกาเขียนลื่น</p>
+                <div>ราคา: 15 บาท</div>
+                <button onclick="addToCart(2)">หยิบใส่ตะกร้า</button>
+            </div>
+            <div class="product" data-id="3" data-name="กระเป๋า" data-price="250">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="กระเป๋า">
+                <h3>กระเป๋า</h3>
+                <p>กระเป๋านักเรียน</p>
+                <div>ราคา: 250 บาท</div>
+                <button onclick="addToCart(3)">หยิบใส่ตะกร้า</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 ร้านค้าออนไลน์ตัวอย่าง
+    </footer>
+    <script>
+        // สินค้าตัวอย่าง
+        const products = [
+            { id: 1, name: "สมุดโน้ต", price: 45 },
+            { id: 2, name: "ปากกา", price: 15 },
+            { id: 3, name: "กระเป๋า", price: 250 }
+        ];
+
+        let cart = [];
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cart-list');
+            const cartTotal = document.getElementById('cart-total');
+            cartList.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                const li = document.createElement('li');
+                li.textContent = `${item.name} x ${item.qty} = ${item.price * item.qty} บาท`;
+                const btn = document.createElement('button');
+                btn.textContent = 'ลบ';
+                btn.className = 'remove-btn';
+                btn.onclick = () => removeFromCart(item.id);
+                li.appendChild(btn);
+                cartList.appendChild(li);
+            });
+            cartTotal.textContent = `รวม: ${total} บาท`;
+        }
+    </script>
+</body>
+</html>
